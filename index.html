@@ -1,162 +1,200 @@
+<!DOCTYPE html>
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pesquisa Eleitoral - Presidência 2026</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <style>
         body {
             font-family: 'Inter', sans-serif;
+            background-color: #1a202c; /* Equivalent to gray-900 or darker gray-800 */
         }
-        .chart-bar {
-            transition: width 0.5s ease-in-out;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+        .container {
+            max-width: 1000px; /* Slightly wider for better content display */
+        }
+        .section-card {
+            background-color: #2d3748; /* gray-800 */
+            border-radius: 1rem; /* rounded-xl */
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.2), 0 4px 6px rgba(0, 0, 0, 0.08); /* shadow-2xl */
+            border: 1px solid #4a5568; /* border-gray-700 */
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        .accordion-header {
+            background-color: #024796; /* Dark blue for headers */
+            color: white;
+            padding: 1.5rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 700;
+            font-size: 1.5rem;
+            border-bottom: 1px solid #4a5568;
+            transition: background-color 0.3s ease;
+        }
+        .accordion-header:hover {
+            background-color: #f83d03; /* Orange on hover */
+        }
+        .accordion-icon {
+            transition: transform 0.3s ease;
+        }
+        .accordion-item.expanded .accordion-icon {
+            transform: rotate(180deg);
+        }
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-in-out;
+            padding: 0 1.5rem; /* Padding horizontal only initially */
+            background-color: #1a202c; /* Dark background for content */
+        }
+        .accordion-item.expanded .accordion-content {
+            max-height: 1000px; /* Adjust based on max content height */
+            padding: 1.5rem; /* Full padding when expanded */
+        }
+        .chart-container {
+            position: relative;
+            height: 350px; /* Fixed height for charts */
+            width: 100%;
+            margin-bottom: 1.5rem;
+        }
+        .chart-bar-label {
+            color: white;
+            font-weight: bold;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.7);
+        }
+        .percentage-list span {
+            display: block;
+            margin-bottom: 0.25rem;
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 640px) {
+            .accordion-header {
+                font-size: 1.25rem;
+                padding: 1rem;
+            }
+            .accordion-item.expanded .accordion-content {
+                padding: 1rem;
+            }
+            .chart-container {
+                height: 250px; /* Smaller height on mobile */
+            }
+            .percentage-list {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
-<body class="bg-gray-800 text-white">
+<body class="bg-gray-900 text-white">
 
     <div class="container mx-auto p-4 sm:p-6 md:p-8">
         
-        <header class="text-center mb-10">
-            <h1 class="text-3xl sm:text-4xl font-bold" style="color: #f83d03;">Análise da Corrida Presidencial 2026</h1>
+        <header class="text-center mb-10 mt-4">
+            <h1 class="text-3xl sm:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-red-600">Análise da Corrida Presidencial 2026</h1>
             <p class="text-lg text-gray-300 mt-2">Instituto Informa | Entrevistas: 1535 | Margem de erro: 3%</p>
             <p class="text-sm text-gray-400">Dados coletados entre 23 de maio e 10 de junho de 2025.</p>
         </header>
 
-        <main class="space-y-12">
+        <main class="space-y-8">
 
-            <!-- Intro -->
-            <div class="bg-gray-700 rounded-lg p-6 shadow-lg border border-gray-600">
-                <p class="text-lg leading-relaxed text-gray-200">
-                    Diante da incógnita envolvendo a eleição presidencial de 2026, as pesquisas analisam cenários com diversos candidatos que ainda não confirmaram participação na corrida. <strong style="color: #024796;">Tarcísio de Freitas (Republicanos)</strong>, apontado como uma das opções do ex-presidente Jair Bolsonaro (PL), que segue inelegível, é um dos nomes centrais nessas projeções.
-                </p>
+            <!-- Intro Section (now accordion item) -->
+            <div class="accordion-item section-card">
+                <div class="accordion-header" onclick="toggleAccordion(this)">
+                    <span>Introdução ao Cenário Presidencial</span>
+                    <svg class="w-6 h-6 accordion-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                </div>
+                <div class="accordion-content">
+                    <p class="text-lg leading-relaxed text-gray-200">
+                        Diante da incógnita envolvendo a eleição presidencial de 2026, as pesquisas analisam cenários com diversos candidatos que ainda não confirmaram participação na corrida. <strong style="color: #f83d03;">Tarcísio de Freitas (Republicanos)</strong>, apontado como uma das opções do ex-presidente Jair Bolsonaro (PL), que segue inelegível, é um dos nomes centrais nessas projeções.
+                    </p>
+                </div>
             </div>
             
-            <!-- Cenário 1 -->
-            <section id="cenario1">
-                <div class="bg-gray-900 rounded-xl shadow-2xl overflow-hidden border border-gray-700">
-                    <div class="p-6">
-                        <h2 class="text-2xl font-bold text-white mb-1">Cenário 1: Disputa sem Bolsonaro</h2>
-                        <p class="text-gray-400 mb-6">Neste cenário estimulado com sete opções de candidatos, Tarcísio de Freitas atinge uma posição de destaque.</p>
-                        <div class="space-y-4">
-                            <!-- Lula -->
-                            <div class="w-full">
-                                <div class="flex justify-between mb-1">
-                                    <span class="text-base font-medium" style="color: #f83d03;">Luiz Inácio Lula da Silva (PT)</span>
-                                    <span class="text-base font-medium" style="color: #f83d03;">40.3%</span>
-                                </div>
-                                <div class="w-full bg-gray-700 rounded-full h-5">
-                                    <div class="h-5 rounded-full chart-bar" style="width: 40.3%; background-color: #f83d03;"></div>
-                                </div>
-                            </div>
-                            <!-- Tarcísio -->
-                            <div class="w-full">
-                                <div class="flex justify-between mb-1">
-                                    <span class="text-base font-medium text-gray-300">Tarcísio de Freitas (Republicanos)</span>
-                                    <span class="text-base font-medium text-gray-300">22.5%</span>
-                                </div>
-                                <div class="w-full bg-gray-700 rounded-full h-5">
-                                    <div class="h-5 rounded-full chart-bar" style="width: 22.5%; background-color: #024796;"></div>
-                                </div>
-                            </div>
-                            <!-- Ciro -->
-                           <div class="w-full">
-                                <div class="flex justify-between mb-1">
-                                    <span class="text-base font-medium text-gray-300">Ciro Gomes (PDT)</span>
-                                    <span class="text-base font-medium text-gray-300">8.5%</span>
-                                </div>
-                                <div class="w-full bg-gray-700 rounded-full h-5">
-                                    <div class="h-5 rounded-full chart-bar" style="width: 8.5%; background-color: #024796;"></div>
-                                </div>
-                            </div>
-                            <!-- Outros -->
-                            <div class="pt-4 text-gray-400 text-sm grid grid-cols-2 sm:grid-cols-4 gap-x-4 gap-y-2">
-                                <span>Eduardo Leite: <strong>2.1%</strong></span>
-                                <span>Ronaldo Caiado: <strong>1.7%</strong></span>
-                                <span>Ratinho Júnior: <strong>1.7%</strong></span>
-                                <span>Romeu Zema: <strong>1.2%</strong></span>
-                                <span>Branco/Nulo: <strong>13.9%</strong></span>
-                                <span>Não irá votar: <strong>2.1%</strong></span>
-                                <span>Não sabe: <strong>6.0%</strong></span>
-                            </div>
-                        </div>
+            <!-- Cenário 1 Section (now accordion item) -->
+            <div class="accordion-item section-card" id="cenario1">
+                <div class="accordion-header" onclick="toggleAccordion(this)">
+                    <span>Cenário 1: Disputa sem Bolsonaro</span>
+                    <svg class="w-6 h-6 accordion-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                </div>
+                <div class="accordion-content">
+                    <p class="text-gray-400 mb-6">Neste cenário estimulado com sete opções de candidatos, Tarcísio de Freitas atinge uma posição de destaque.</p>
+                    <div class="chart-container">
+                        <canvas id="scenario1Chart"></canvas>
+                    </div>
+                    <div class="pt-4 text-gray-400 text-sm grid grid-cols-2 sm:grid-cols-4 gap-x-4 gap-y-2 percentage-list">
+                        <span>Eduardo Leite: <strong class="text-white">2.1%</strong></span>
+                        <span>Ronaldo Caiado: <strong class="text-white">1.7%</strong></span>
+                        <span>Ratinho Júnior: <strong class="text-white">1.7%</strong></span>
+                        <span>Romeu Zema: <strong class="text-white">1.2%</strong></span>
+                        <span>Branco/Nulo: <strong class="text-white">13.9%</strong></span>
+                        <span>Não irá votar: <strong class="text-white">2.1%</strong></span>
+                        <span>Não sabe: <strong class="text-white">6.0%</strong></span>
                     </div>
                 </div>
-            </section>
+            </div>
             
-            <!-- Cenário 2 -->
-            <section id="cenario2">
-                <div class="bg-gray-900 rounded-xl shadow-2xl overflow-hidden border border-gray-700">
-                    <div class="p-6">
-                        <h2 class="text-2xl font-bold text-white mb-1">Cenário 2: Disputa com Bolsonaro</h2>
-                        <p class="text-gray-400 mb-6">Com a inclusão do ex-presidente como candidato, o panorama se altera significativamente.</p>
-                        <div class="space-y-4">
-                            <!-- Lula -->
-                            <div class="w-full">
-                                <div class="flex justify-between mb-1">
-                                    <span class="text-base font-medium" style="color: #f83d03;">Luiz Inácio Lula da Silva (PT)</span>
-                                    <span class="text-base font-medium" style="color: #f83d03;">40.7%</span>
-                                </div>
-                                <div class="w-full bg-gray-700 rounded-full h-5">
-                                    <div class="h-5 rounded-full chart-bar" style="width: 40.7%; background-color: #f83d03;"></div>
-                                </div>
-                            </div>
-                            <!-- Bolsonaro -->
-                            <div class="w-full">
-                                <div class="flex justify-between mb-1">
-                                    <span class="text-base font-medium text-gray-300">Jair Bolsonaro (PL)</span>
-                                    <span class="text-base font-medium text-gray-300">26.2%</span>
-                                </div>
-                                <div class="w-full bg-gray-700 rounded-full h-5">
-                                    <div class="h-5 rounded-full chart-bar" style="width: 26.2%; background-color: #024796;"></div>
-                                </div>
-                            </div>
-                            <!-- Outros -->
-                            <div class="pt-4 text-gray-400 text-sm grid grid-cols-2 sm:grid-cols-4 gap-x-4 gap-y-2">
-                                <span>Ciro Gomes: <strong>2.6%</strong></span>
-                                <span>Tarcísio de Freitas: <strong>2.4%</strong></span>
-                                <span>João Campos: <strong>1.1%</strong></span>
-                                <span>Eduardo Leite: <strong>0.5%</strong></span>
-                                <span>Michelle Bolsonaro: <strong>0.4%</strong></span>
-                                <span>Simone Tebet: <strong>0.4%</strong></span>
-                                <span>Ratinho Júnior: <strong>0.4%</strong></span>
-                                <span>Nikolas Ferreira: <strong>0.3%</strong></span>
-                                <span>Outros: <strong>2.6%</strong></span>
-                                <span>Branco/Nulo: <strong>6.3%</strong></span>
-                                <span class="col-span-2">Não sabe: <strong>16.2%</strong></span>
-                            </div>
-                        </div>
+            <!-- Cenário 2 Section (now accordion item) -->
+            <div class="accordion-item section-card" id="cenario2">
+                <div class="accordion-header" onclick="toggleAccordion(this)">
+                    <span>Cenário 2: Disputa com Bolsonaro</span>
+                    <svg class="w-6 h-6 accordion-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                </div>
+                <div class="accordion-content">
+                    <p class="text-gray-400 mb-6">Com a inclusão do ex-presidente como candidato, o panorama se altera significativamente.</p>
+                    <div class="chart-container">
+                        <canvas id="scenario2Chart"></canvas>
+                    </div>
+                    <div class="pt-4 text-gray-400 text-sm grid grid-cols-2 sm:grid-cols-4 gap-x-4 gap-y-2 percentage-list">
+                        <span>Ciro Gomes: <strong class="text-white">2.6%</strong></span>
+                        <span>Tarcísio de Freitas: <strong class="text-white">2.4%</strong></span>
+                        <span>João Campos: <strong class="text-white">1.1%</strong></span>
+                        <span>Eduardo Leite: <strong class="text-white">0.5%</strong></span>
+                        <span>Michelle Bolsonaro: <strong class="text-white">0.4%</strong></span>
+                        <span>Simone Tebet: <strong class="text-white">0.4%</strong></span>
+                        <span>Ratinho Júnior: <strong class="text-white">0.4%</strong></span>
+                        <span>Nikolas Ferreira: <strong class="text-white">0.3%</strong></span>
+                        <span>Outros: <strong class="text-white">2.6%</strong></span>
+                        <span>Branco/Nulo: <strong class="text-white">6.3%</strong></span>
+                        <span class="col-span-2">Não sabe: <strong class="text-white">16.2%</strong></span>
                     </div>
                 </div>
-            </section>
+            </div>
 
-             <!-- Cenário 3 -->
-            <section id="cenario3">
-                 <div class="bg-gray-700 rounded-lg p-6 shadow-lg border border-gray-600 text-center">
-                    <h2 class="text-2xl font-bold text-white mb-3">Cenário 3: Confronto Direto com Apoio</h2>
-                    <p class="text-lg leading-relaxed text-gray-200 max-w-3xl mx-auto">
+            <!-- Cenário 3 Section (now accordion item) -->
+            <div class="accordion-item section-card" id="cenario3">
+                <div class="accordion-header" onclick="toggleAccordion(this)">
+                    <span>Cenário 3: Confronto Direto com Apoio</span>
+                    <svg class="w-6 h-6 accordion-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                </div>
+                <div class="accordion-content">
+                    <p class="text-lg leading-relaxed text-gray-200">
                         Em uma simulação de segundo turno, com Bolsonaro apoiando Tarcísio, a disputa se polariza. <strong style="color: #f83d03;">Lula</strong> alcança <strong style="color: #f83d03;">45,9%</strong> das intenções de voto, enquanto <strong style="color: #024796;">Tarcísio</strong> atinge <strong style="color: #024796;">29,8%</strong>.
                     </p>
                 </div>
-            </section>
+            </div>
 
-            <!-- Tarcísio em PE -->
-            <section id="tarcisio-pe">
-                <div class="bg-gray-900 rounded-xl shadow-2xl overflow-hidden border border-gray-700">
-                    <div class="p-6 md:p-8">
-                        <h2 class="text-2xl font-bold mb-4" style="color: #f83d03;">Tarcísio em Pernambuco</h2>
-                        <div class="space-y-4 text-gray-300 leading-relaxed">
-                            <p>Os números do governador de São Paulo impressionam, já que ele não teria um histórico de relação próxima com o estado pernambucano.</p>
-                            <p>Em abril deste ano, porém, a Comissão de Cidadania da Assembleia Legislativa de Pernambuco (Alepe) aprovou um projeto de resolução que concedeu o <strong class="text-white">Título Honorífico de Cidadão Pernambucano</strong> a Tarcísio. </p>
-                            <p>A decisão gerou reações distintas: membros do <strong style="color: #024796;">PL</strong> na Alepe comemoraram e apoiaram o projeto, enquanto parlamentares do <strong style="color: #f83d03;">PT</strong> e do <strong class="text-yellow-400">PSOL</strong> afirmaram que o político não contribuiu para o crescimento do estado.</p>
-                        </div>
+            <!-- Tarcísio em PE Section (now accordion item) -->
+            <div class="accordion-item section-card" id="tarcisio-pe">
+                <div class="accordion-header" onclick="toggleAccordion(this)">
+                    <span>Tarcísio em Pernambuco</span>
+                    <svg class="w-6 h-6 accordion-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                </div>
+                <div class="accordion-content">
+                    <div class="space-y-4 text-gray-300 leading-relaxed">
+                        <p>Os números do governador de São Paulo impressionam, já que ele não teria um histórico de relação próxima com o estado pernambucano.</p>
+                        <p>Em abril deste ano, porém, a Comissão de Cidadania da Assembleia Legislativa de Pernambuco (Alepe) aprovou um projeto de resolução que concedeu o <strong class="text-white">Título Honorífico de Cidadão Pernambucano</strong> a Tarcísio. </p>
+                        <p>A decisão gerou reações distintas: membros do <strong style="color: #024796;">PL</strong> na Alepe comemoraram e apoiaram o projeto, enquanto parlamentares do <strong style="color: #f83d03;">PT</strong> e do <strong class="text-yellow-400">PSOL</strong> afirmaram que o político não contribuiu para o crescimento do estado.</p>
                     </div>
                 </div>
-            </section>
+            </div>
             
         </main>
         
@@ -166,5 +204,167 @@
 
     </div>
 
+    <script>
+        // Function to toggle accordion items
+        function toggleAccordion(header) {
+            const item = header.closest('.accordion-item');
+            if (item) {
+                const content = item.querySelector('.accordion-content');
+                item.classList.toggle('expanded');
+                if (item.classList.contains('expanded')) {
+                    // Set max-height to scrollHeight for smooth expansion
+                    // A small timeout ensures the browser has rendered the content's full height
+                    content.style.maxHeight = content.scrollHeight + "px"; 
+                    setTimeout(() => {
+                        initializeChart(item.id);
+                    }, 50); // Small delay to allow CSS transition
+                } else {
+                    content.style.maxHeight = null;
+                    // Destroy chart when collapsing to free up resources and prevent rendering issues
+                    const chartCanvas = item.querySelector('canvas');
+                    if (chartCanvas && chartInstances[chartCanvas.id]) {
+                        chartInstances[chartCanvas.id].destroy();
+                        delete chartInstances[chartCanvas.id];
+                    }
+                }
+            }
+        }
+
+        // Chart.js instances holder
+        const chartInstances = {};
+
+        // Function to create a horizontal bar chart
+        function createBarChart(ctx, labels, data, backgroundColors, titleText) {
+            if (chartInstances[ctx.canvas.id]) {
+                chartInstances[ctx.canvas.id].destroy(); // Destroy previous instance if exists
+            }
+
+            chartInstances[ctx.canvas.id] = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        data: data,
+                        backgroundColor: backgroundColors,
+                        borderColor: backgroundColors.map(color => color.replace('0.8', '1')),
+                        borderWidth: 1,
+                        borderRadius: 8,
+                    }]
+                },
+                options: {
+                    indexAxis: 'y', // Horizontal bars
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: {
+                            beginAtZero: true,
+                            max: 100, // Ensure scale goes to 100%
+                            grid: {
+                                color: 'rgba(255, 255, 255, 0.1)' // Lighter grid lines
+                            },
+                            ticks: {
+                                color: 'white' // White ticks
+                            }
+                        },
+                        y: {
+                            grid: {
+                                color: 'rgba(255, 255, 255, 0.1)'
+                            },
+                            ticks: {
+                                color: 'white' // White ticks
+                            }
+                        }
+                    },
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: titleText,
+                            color: 'white',
+                            font: {
+                                size: 18,
+                                weight: 'bold',
+                                family: 'Inter'
+                            }
+                        },
+                        legend: {
+                            display: false // Hide legend
+                        },
+                        datalabels: {
+                            anchor: 'end',
+                            align: 'end',
+                            color: 'white',
+                            font: {
+                                weight: 'bold',
+                                size: 14,
+                                family: 'Inter'
+                            },
+                            formatter: (value) => `${value}%`,
+                            textShadowColor: 'rgba(0, 0, 0, 0.7)',
+                            textShadowBlur: 5,
+                        },
+                        tooltip: {
+                            backgroundColor: 'rgba(0, 0, 0, 0.7)',
+                            bodyColor: 'white',
+                            borderColor: '#f83d03',
+                            borderWidth: 1,
+                            titleColor: '#f83d03',
+                            titleFont: { weight: 'bold' },
+                            callbacks: {
+                                label: function(context) {
+                                    let label = context.dataset.label || '';
+                                    if (context.raw !== null) {
+                                        label = `${context.label}: ${context.raw}%`;
+                                    }
+                                    return label;
+                                }
+                            }
+                        }
+                    }
+                },
+                plugins: [ChartDataLabels] // Register the datalabels plugin
+            });
+        }
+
+        // Function to initialize specific charts based on accordion ID
+        function initializeChart(sectionId) {
+            if (sectionId === 'cenario1') {
+                const ctx1 = document.getElementById('scenario1Chart').getContext('2d');
+                createBarChart(
+                    ctx1,
+                    ['Luiz Inácio Lula da Silva (PT)', 'Tarcísio de Freitas (Republicanos)', 'Ciro Gomes (PDT)'],
+                    [40.3, 22.5, 8.5],
+                    ['#f83d03', '#024796', '#024796'], // Lula in orange, others in blue
+                    'Intenções de Voto: Cenário sem Bolsonaro'
+                );
+            } else if (sectionId === 'cenario2') {
+                const ctx2 = document.getElementById('scenario2Chart').getContext('2d');
+                createBarChart(
+                    ctx2,
+                    ['Luiz Inácio Lula da Silva (PT)', 'Jair Bolsonaro (PL)'],
+                    [40.7, 26.2],
+                    ['#f83d03', '#024796'], // Lula in orange, Bolsonaro in blue
+                    'Intenções de Voto: Cenário com Bolsonaro'
+                );
+            }
+            // No charts for 'intro', 'cenario3', 'tarcisio-pe' currently.
+        }
+
+        // Initialize accordion and charts on DOMContentLoaded
+        document.addEventListener('DOMContentLoaded', () => {
+            // No charts are initialized immediately. They will be initialized when their accordion is opened.
+        });
+
+        // Add event listener for window resize to re-render charts
+        window.addEventListener('resize', () => {
+            // Destroy and re-create charts if their accordion is currently expanded
+            document.querySelectorAll('.accordion-item.expanded').forEach(item => {
+                const chartCanvas = item.querySelector('canvas');
+                if (chartCanvas && chartInstances[chartCanvas.id]) {
+                    // Re-initialize the chart when resized if its section is open
+                    initializeChart(item.id);
+                }
+            });
+        });
+    </script>
 </body>
 </html>
