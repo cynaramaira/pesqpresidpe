@@ -1,0 +1,170 @@
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pesquisa Eleitoral - Presidência 2026</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .chart-bar {
+            transition: width 0.5s ease-in-out;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+        }
+    </style>
+</head>
+<body class="bg-gray-800 text-white">
+
+    <div class="container mx-auto p-4 sm:p-6 md:p-8">
+        
+        <header class="text-center mb-10">
+            <h1 class="text-3xl sm:text-4xl font-bold" style="color: #f83d03;">Análise da Corrida Presidencial 2026</h1>
+            <p class="text-lg text-gray-300 mt-2">Instituto Informa | Entrevistas: 1535 | Margem de erro: 3%</p>
+            <p class="text-sm text-gray-400">Dados coletados entre 23 de maio e 10 de junho de 2025.</p>
+        </header>
+
+        <main class="space-y-12">
+
+            <!-- Intro -->
+            <div class="bg-gray-700 rounded-lg p-6 shadow-lg border border-gray-600">
+                <p class="text-lg leading-relaxed text-gray-200">
+                    Diante da incógnita envolvendo a eleição presidencial de 2026, as pesquisas analisam cenários com diversos candidatos que ainda não confirmaram participação na corrida. <strong style="color: #024796;">Tarcísio de Freitas (Republicanos)</strong>, apontado como uma das opções do ex-presidente Jair Bolsonaro (PL), que segue inelegível, é um dos nomes centrais nessas projeções.
+                </p>
+            </div>
+            
+            <!-- Cenário 1 -->
+            <section id="cenario1">
+                <div class="bg-gray-900 rounded-xl shadow-2xl overflow-hidden border border-gray-700">
+                    <div class="p-6">
+                        <h2 class="text-2xl font-bold text-white mb-1">Cenário 1: Disputa sem Bolsonaro</h2>
+                        <p class="text-gray-400 mb-6">Neste cenário estimulado com sete opções de candidatos, Tarcísio de Freitas atinge uma posição de destaque.</p>
+                        <div class="space-y-4">
+                            <!-- Lula -->
+                            <div class="w-full">
+                                <div class="flex justify-between mb-1">
+                                    <span class="text-base font-medium" style="color: #f83d03;">Luiz Inácio Lula da Silva (PT)</span>
+                                    <span class="text-base font-medium" style="color: #f83d03;">40.3%</span>
+                                </div>
+                                <div class="w-full bg-gray-700 rounded-full h-5">
+                                    <div class="h-5 rounded-full chart-bar" style="width: 40.3%; background-color: #f83d03;"></div>
+                                </div>
+                            </div>
+                            <!-- Tarcísio -->
+                            <div class="w-full">
+                                <div class="flex justify-between mb-1">
+                                    <span class="text-base font-medium text-gray-300">Tarcísio de Freitas (Republicanos)</span>
+                                    <span class="text-base font-medium text-gray-300">22.5%</span>
+                                </div>
+                                <div class="w-full bg-gray-700 rounded-full h-5">
+                                    <div class="h-5 rounded-full chart-bar" style="width: 22.5%; background-color: #024796;"></div>
+                                </div>
+                            </div>
+                            <!-- Ciro -->
+                           <div class="w-full">
+                                <div class="flex justify-between mb-1">
+                                    <span class="text-base font-medium text-gray-300">Ciro Gomes (PDT)</span>
+                                    <span class="text-base font-medium text-gray-300">8.5%</span>
+                                </div>
+                                <div class="w-full bg-gray-700 rounded-full h-5">
+                                    <div class="h-5 rounded-full chart-bar" style="width: 8.5%; background-color: #024796;"></div>
+                                </div>
+                            </div>
+                            <!-- Outros -->
+                            <div class="pt-4 text-gray-400 text-sm grid grid-cols-2 sm:grid-cols-4 gap-x-4 gap-y-2">
+                                <span>Eduardo Leite: <strong>2.1%</strong></span>
+                                <span>Ronaldo Caiado: <strong>1.7%</strong></span>
+                                <span>Ratinho Júnior: <strong>1.7%</strong></span>
+                                <span>Romeu Zema: <strong>1.2%</strong></span>
+                                <span>Branco/Nulo: <strong>13.9%</strong></span>
+                                <span>Não irá votar: <strong>2.1%</strong></span>
+                                <span>Não sabe: <strong>6.0%</strong></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Cenário 2 -->
+            <section id="cenario2">
+                <div class="bg-gray-900 rounded-xl shadow-2xl overflow-hidden border border-gray-700">
+                    <div class="p-6">
+                        <h2 class="text-2xl font-bold text-white mb-1">Cenário 2: Disputa com Bolsonaro</h2>
+                        <p class="text-gray-400 mb-6">Com a inclusão do ex-presidente como candidato, o panorama se altera significativamente.</p>
+                        <div class="space-y-4">
+                            <!-- Lula -->
+                            <div class="w-full">
+                                <div class="flex justify-between mb-1">
+                                    <span class="text-base font-medium" style="color: #f83d03;">Luiz Inácio Lula da Silva (PT)</span>
+                                    <span class="text-base font-medium" style="color: #f83d03;">40.7%</span>
+                                </div>
+                                <div class="w-full bg-gray-700 rounded-full h-5">
+                                    <div class="h-5 rounded-full chart-bar" style="width: 40.7%; background-color: #f83d03;"></div>
+                                </div>
+                            </div>
+                            <!-- Bolsonaro -->
+                            <div class="w-full">
+                                <div class="flex justify-between mb-1">
+                                    <span class="text-base font-medium text-gray-300">Jair Bolsonaro (PL)</span>
+                                    <span class="text-base font-medium text-gray-300">26.2%</span>
+                                </div>
+                                <div class="w-full bg-gray-700 rounded-full h-5">
+                                    <div class="h-5 rounded-full chart-bar" style="width: 26.2%; background-color: #024796;"></div>
+                                </div>
+                            </div>
+                            <!-- Outros -->
+                            <div class="pt-4 text-gray-400 text-sm grid grid-cols-2 sm:grid-cols-4 gap-x-4 gap-y-2">
+                                <span>Ciro Gomes: <strong>2.6%</strong></span>
+                                <span>Tarcísio de Freitas: <strong>2.4%</strong></span>
+                                <span>João Campos: <strong>1.1%</strong></span>
+                                <span>Eduardo Leite: <strong>0.5%</strong></span>
+                                <span>Michelle Bolsonaro: <strong>0.4%</strong></span>
+                                <span>Simone Tebet: <strong>0.4%</strong></span>
+                                <span>Ratinho Júnior: <strong>0.4%</strong></span>
+                                <span>Nikolas Ferreira: <strong>0.3%</strong></span>
+                                <span>Outros: <strong>2.6%</strong></span>
+                                <span>Branco/Nulo: <strong>6.3%</strong></span>
+                                <span class="col-span-2">Não sabe: <strong>16.2%</strong></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+             <!-- Cenário 3 -->
+            <section id="cenario3">
+                 <div class="bg-gray-700 rounded-lg p-6 shadow-lg border border-gray-600 text-center">
+                    <h2 class="text-2xl font-bold text-white mb-3">Cenário 3: Confronto Direto com Apoio</h2>
+                    <p class="text-lg leading-relaxed text-gray-200 max-w-3xl mx-auto">
+                        Em uma simulação de segundo turno, com Bolsonaro apoiando Tarcísio, a disputa se polariza. <strong style="color: #f83d03;">Lula</strong> alcança <strong style="color: #f83d03;">45,9%</strong> das intenções de voto, enquanto <strong style="color: #024796;">Tarcísio</strong> atinge <strong style="color: #024796;">29,8%</strong>.
+                    </p>
+                </div>
+            </section>
+
+            <!-- Tarcísio em PE -->
+            <section id="tarcisio-pe">
+                <div class="bg-gray-900 rounded-xl shadow-2xl overflow-hidden border border-gray-700">
+                    <div class="p-6 md:p-8">
+                        <h2 class="text-2xl font-bold mb-4" style="color: #f83d03;">Tarcísio em Pernambuco</h2>
+                        <div class="space-y-4 text-gray-300 leading-relaxed">
+                            <p>Os números do governador de São Paulo impressionam, já que ele não teria um histórico de relação próxima com o estado pernambucano.</p>
+                            <p>Em abril deste ano, porém, a Comissão de Cidadania da Assembleia Legislativa de Pernambuco (Alepe) aprovou um projeto de resolução que concedeu o <strong class="text-white">Título Honorífico de Cidadão Pernambucano</strong> a Tarcísio. </p>
+                            <p>A decisão gerou reações distintas: membros do <strong style="color: #024796;">PL</strong> na Alepe comemoraram e apoiaram o projeto, enquanto parlamentares do <strong style="color: #f83d03;">PT</strong> e do <strong class="text-yellow-400">PSOL</strong> afirmaram que o político não contribuiu para o crescimento do estado.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+        </main>
+        
+        <footer class="text-center mt-12 py-4 border-t border-gray-700">
+            <p class="text-gray-500 text-sm">&copy; 2025 Análises e Pesquisas. Todos os direitos reservados.</p>
+        </footer>
+
+    </div>
+
+</body>
+</html>
